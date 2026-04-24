@@ -10,7 +10,6 @@ root.geometry("900x600")
 dark_mode = False
 
 
-# ---------------- ROUNDED RECT ----------------
 def create_rounded_rect(self, x1, y1, x2, y2, radius=20, **kwargs):
     points = [
         x1+radius, y1,
@@ -31,7 +30,6 @@ def create_rounded_rect(self, x1, y1, x2, y2, radius=20, **kwargs):
 Canvas.create_rounded_rect = create_rounded_rect
 
 
-# ---------------- SEARCH BAR ----------------
 class RoundedEntry(Frame):
     def __init__(self, parent, command):
         super().__init__(parent)
@@ -106,7 +104,6 @@ class RoundedEntry(Frame):
         self.draw()
 
 
-# ---------------- MAIN FUNCTION ----------------
 def open_suggestions_window(event=None):
     text = search_entry.get().strip()
     if not text:
@@ -114,7 +111,6 @@ def open_suggestions_window(event=None):
 
     corrected = str(TextBlob(text).correct())
 
-    # -------- MEANING (dictionaryapi.dev) --------
     try:
         url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{corrected}"
         response = requests.get(url)
@@ -124,7 +120,6 @@ def open_suggestions_window(event=None):
     except:
         meaning = "Meaning not found."
 
-    # -------- SYNONYMS (Datamuse API) --------
     try:
         syn_url = f"https://api.datamuse.com/words?rel_syn={corrected}"
         syn_res = requests.get(syn_url)
@@ -135,7 +130,6 @@ def open_suggestions_window(event=None):
     except:
         synonyms = "No synonyms found."
 
-    # ---------------- RESULT WINDOW ----------------
     win = Toplevel(root)
     win.geometry("520x400")
 
@@ -151,7 +145,6 @@ def open_suggestions_window(event=None):
           bg=bg,
           fg=accent).pack(pady=10)
 
-    # MEANING
     Label(win,
           text="📖 Meaning",
           font=("Helvetica", 14, "bold"),
@@ -166,7 +159,6 @@ def open_suggestions_window(event=None):
           bg=bg,
           fg=text_color).pack(anchor="w", padx=20, pady=5)
 
-    # SYNONYMS
     Label(win,
           text="🔁 Synonyms",
           font=("Helvetica", 14, "bold"),
@@ -182,12 +174,10 @@ def open_suggestions_window(event=None):
           fg=text_color).pack(anchor="w", padx=20, pady=5)
 
 
-# ---------------- DICTIONARY BUTTON ----------------
 def open_dictionary():
     webbrowser.open("https://www.dictionary.com")
 
 
-# ---------------- DARK MODE ----------------
 def toggle_dark_mode():
     global dark_mode
 
@@ -229,7 +219,6 @@ def toggle_dark_mode():
     root.update_idletasks()
 
 
-# ---------------- UI ----------------
 root.config(bg="#FFF4C2")
 
 top_frame = Frame(root, bg="#FFF4C2")
@@ -262,7 +251,6 @@ search_entry.pack()
 
 root.bind("<Return>", open_suggestions_window)
 
-# Dictionary Button
 dict_frame = Frame(center_frame, bg="#FFF4C2")
 dict_frame.pack(pady=15)
 
